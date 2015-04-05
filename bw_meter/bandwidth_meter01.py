@@ -10,15 +10,19 @@ import json
 import sys
 import time
 import urllib.request
+import argparse
+parser = argparse.ArgumentParser()
 
 class config:
-	def __init__(self):
+	def __init__(self, path):
+		print("given config paht:", path)
 		conf_nf_msg = "Configuration not found! Please enter the path: "
 		try:
-			f = open("bw_config", 'r')
+			f = open(path, 'r')
 		except:
 			conf_path = input(conf_nf_msg)
 			f = open(conf_path, 'r')
+
 		conffile = f.read()
 		json_conf = json.loads(conffile)
 		self.version = json_conf["version"]
@@ -26,7 +30,7 @@ class config:
 		self.log_path = json_conf["log_path"]
 		self.interval = json_conf["mins_between_tests"]
 		f.close()
-	
+
 	def print_all(self):
 		print("url: ", self.url)
 		print("interval: ", self.interval)
@@ -64,8 +68,8 @@ def add_to_log(entry, path):
 	f.close
 	return
 		
-def measurement_loop():
-	conf = config()
+def measurement_loop(conf_path):
+	conf = config(conf_path)
 	running = 3
 	
 	while (running == 3):
@@ -87,6 +91,11 @@ def measurement_loop():
 	return
 
 def main():
-	measurement_loop()
+	parser.add_argument("-conf", "--conf_path", help="Config file path",
+				default="bw_config")
+
+	args = parser.parse_args()
+
+	measurement_loop(args.conf_path)
 	
 main()

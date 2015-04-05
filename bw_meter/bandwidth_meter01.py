@@ -13,7 +13,12 @@ import urllib.request
 
 class config:
 	def __init__(self):
-		f = open("bw_config", 'r')
+		conf_nf_msg = "Configuration not found! Please enter the path: "
+		try:
+			f = open("bw_config", 'r')
+		except:
+			conf_path = input(conf_nf_msg)
+			f = open(conf_path, 'r')
 		conffile = f.read()
 		json_conf = json.loads(conffile)
 		self.version = json_conf["version"]

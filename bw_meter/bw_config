@@ -1,0 +1,6 @@
+{
+"mins_between_tests": 15, 
+"log_path": "bandwidth.log", 
+"url": "http://kaatis.dy.fi/~panu/test9.tar.gz", 
+"version": 1
+}
